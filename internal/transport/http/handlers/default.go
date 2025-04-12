@@ -60,11 +60,7 @@ func (h *Handler) ServeSwaggerFiles(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Формируем путь к файлам
-	swaggerPath, err := filepath.Abs(filepath.Join(pwd, "../pkg/docs"))
-	if err != nil {
-		h.logger.Error().Err(err).Msg("An error occurred while resolving absolute path")
-		return
-	}
+	swaggerPath := filepath.Join(pwd, "../pkg/docs/")
 
 	h.logger.Debug().Str("pwd", pwd).Str("swaggerPath", swaggerPath).Msg("Debugging swagger path")
 
