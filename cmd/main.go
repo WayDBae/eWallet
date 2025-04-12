@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 
 	net_http "net/http"
 
@@ -39,10 +40,16 @@ var ModuleLifecycleHooks = fx.Invoke(RegisterHooks)
 func RegisterHooks(lifecycle fx.Lifecycle, server *net_http.Server) {
 	lifecycle.Append(fx.Hook{
 		OnStart: func(context.Context) error {
-			go server.ListenAndServe()
+			fmt.Println("[Server] Starting HTTP server on", server.Addr)
+			go func() {
+				if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+					fmt.Println("[Server] ListenAndServe error:", err)
+				}
+			}()
 			return nil
 		},
 		OnStop: func(ctx context.Context) error {
+			fmt.Println("[Server] Shutting down HTTP server...")
 			return server.Shutdown(ctx)
 		},
 	})
