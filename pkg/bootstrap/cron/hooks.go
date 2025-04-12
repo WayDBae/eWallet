@@ -8,7 +8,7 @@ import (
 )
 
 // ModuleLifecycleCronHooks ...
-var ModuleLifecycleCronHooks = fx.Invoke(RegisterCronHooks)
+// var ModuleLifecycleCronHooks = fx.Invoke(RegisterCronHooks)
 
 // RegisterCronHooks ...
 func RegisterCronHooks(lifecycle fx.Lifecycle, cron *gocron.Scheduler) {

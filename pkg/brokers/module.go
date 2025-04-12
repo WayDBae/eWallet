@@ -10,7 +10,7 @@ import (
 )
 
 // AMQPModule ...
-var Module = fx.Provide(NewAMQPConn)
+// var Module = fx.Provide(NewAMQPConn)
 
 // Dependencies ...
 type Dependencies struct {

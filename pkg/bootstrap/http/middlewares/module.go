@@ -15,9 +15,9 @@ var Module = fx.Provide(NewMiddleware)
 // Middleware ...
 type Middleware interface {
 	// Сбор метрик сервиса
-	Metrics(next http.HandlerFunc) http.HandlerFunc
+	// Metrics(next http.HandlerFunc) http.HandlerFunc
 	CORS(next http.HandlerFunc) http.HandlerFunc
-	RequestLog(next http.HandlerFunc) http.HandlerFunc
+	// RequestLog(next http.HandlerFunc) http.HandlerFunc
 }
 
 // Dependencies ...

@@ -1,8 +1,6 @@
 package databases
 
 import (
-	"database/sql"
-
 	"github.com/WayDBae/eWallet/pkg/config"
 	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
@@ -10,9 +8,6 @@ import (
 	"github.com/rs/zerolog"
 	"go.uber.org/fx"
 )
-
-// OracleModule ...
-// var OracleModule = fx.Provide(NewOracleConn)
 
 var Module = fx.Options(PostgresModule, RedisModule)
 
@@ -28,11 +23,6 @@ type Dependencies struct {
 
 	Logger zerolog.Logger
 	Config *config.Config
-}
-
-// NewOracleConn ...
-func NewOracleConn(params Dependencies) *sql.DB {
-	return Oracle(params)
 }
 
 // NewPostgresConn ...

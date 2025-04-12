@@ -1,7 +1,6 @@
 package databases
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/go-redis/redis/v8"
@@ -18,9 +17,9 @@ func Redis(params Dependencies) (client *redis.Client) {
 
 	// Проверяем подключение
 
-	if err := client.Ping(context.Background()).Err(); err != nil {
-		params.Logger.Warn().Err(err).Msg("An error occurred while trying to ping redis host")
-	}
+	// if err := client.Ping(context.Background()).Err(); err != nil {
+	// 	params.Logger.Warn().Err(err).Msg("An error occurred while trying to ping redis host")
+	// }
 
 	fmt.Println("Successfully connected to Redis!")
 	return

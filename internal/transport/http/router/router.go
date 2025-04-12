@@ -20,11 +20,11 @@ func NewRouter(h *handlers.Handler, mw middlewares.Middleware) (router *transpor
 	router = transportHTTP.NewRouter()
 	router.ConnectSwagger(h.ServeSwaggerFiles)
 
-	router.POST("/auth/registration", h.HRegistration, mw.RequestLog, mw.Metrics, mw.CORS)
-	router.POST("/auth/otp-verify", h.HOTPVerify, mw.RequestLog, mw.Metrics, mw.CORS)
+	router.POST("/auth/registration", h.HRegistration, mw.CORS)
+	router.POST("/auth/otp-verify", h.HOTPVerify, mw.CORS)
 
-	router.POST("/auth/login", h.HLogin, mw.RequestLog, mw.Metrics, mw.CORS)
-	router.GET("/ping", h.HPingPong, mw.RequestLog, mw.Metrics, mw.CORS)
-	router.GET("/metrics", AdaptHandler(promhttp.Handler()), mw.RequestLog, mw.Metrics, mw.CORS)
+	router.POST("/auth/login", h.HLogin, mw.CORS)
+	router.GET("/ping", h.HPingPong, mw.CORS)
+	router.GET("/metrics", AdaptHandler(promhttp.Handler()), mw.CORS)
 	return
 }
