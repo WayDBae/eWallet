@@ -9,9 +9,9 @@ GREEN=\033[92m
 
 # Project dependencies
 DEPENDENCIES = Golang="go version" \
-			Redis="redis-cli -v" \
-			Swagger="swagger version" \
-			Postgres="psql -V"
+			Postgres="psql -V" \
+			# Redis="redis-cli -v" \
+			# Swagger="swagger version" \
 
 # Build
 # TODO: Implement loader
