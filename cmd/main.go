@@ -13,7 +13,6 @@ import (
 	"github.com/WayDBae/eWallet/pkg/bootstrap/http"
 	"github.com/WayDBae/eWallet/pkg/config"
 	"github.com/WayDBae/eWallet/pkg/databases"
-	"github.com/WayDBae/eWallet/pkg/gateways"
 	"github.com/WayDBae/eWallet/pkg/logger"
 	"go.uber.org/fx"
 )
@@ -28,7 +27,7 @@ func main() {
 		storage.Module,
 		handlers.Module,
 		router.Module,
-		gateways.Module,
+		// gateways.Module,
 		ModuleLifecycleHooks,
 	)
 	app.Run()

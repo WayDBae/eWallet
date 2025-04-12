@@ -1,15 +1,15 @@
 package brokers
 
-import (
-	"context"
+// import (
+// 	"context"
 
-	"github.com/WayDBae/eWallet/pkg/brokers/rabbitmq"
-)
+// 	"github.com/WayDBae/eWallet/pkg/brokers/rabbitmq"
+// )
 
 const delay = 3 // reconnect after delay seconds
 
-// NewNewRabbitMQ ...
-func NewRabbitMQConn(params Dependencies, ctx context.Context) (client rabbitmq.Client) {
+// // NewNewRabbitMQ ...
+// func NewRabbitMQConn(params Dependencies, ctx context.Context) (client rabbitmq.Client) {
 	// rmqp := fmt.Sprintf("amqp://%v:%v@%v:%v/",
 	// 	params.Config.RabbitMQ.Username,
 	// 	params.Config.RabbitMQ.Password,
@@ -24,5 +24,5 @@ func NewRabbitMQConn(params Dependencies, ctx context.Context) (client rabbitmq.
 	// 	return nil
 	// }
 
-	return
-}
+// 	return
+// }
