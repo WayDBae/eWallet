@@ -70,6 +70,11 @@ docs:
 	@echo "[+] Generation swagger file"
 	@swagger generate spec -m -o $(PWD)/pkg/docs/swagger.yaml
 
+
+.PHONY: build-run
+build-run:
+	@cd $(PWD)/build/ && ./app
+	
 # Run project as dev
 .PHONY: run
 run:
