@@ -57,6 +57,7 @@ func (h *Handler) ServeSwaggerFiles(w http.ResponseWriter, r *http.Request) {
 
 	// Используем filepath.Join для корректного формирования пути
 	swaggerPath := filepath.Join(pwd, "../pkg/docs")
+	h.logger.Debug().Err(err).Str("pwd", pwd).Str("swaggerPath", swaggerPath).Msg("Debugging swagger path")
 
 	if strings.Contains(r.URL.String(), "yaml") {
 		http.ServeFile(w, r, filepath.Join(swaggerPath, "swagger.yaml"))
