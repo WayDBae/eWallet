@@ -60,7 +60,9 @@ func (h *Handler) ServeSwaggerFiles(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Формируем путь к файлам
-	swaggerPath := filepath.Join(pwd, "../pkg/docs/")
+	// swaggerPath := filepath.Join(pwd, "../pkg/docs/")
+
+	swaggerPath := "../pkg/docs/"
 
 	h.logger.Debug().Str("pwd", pwd).Str("swaggerPath", swaggerPath).Msg("Debugging swagger path")
 
