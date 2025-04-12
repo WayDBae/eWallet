@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -26,8 +27,11 @@ import (
 //				$ref: "#/responses/ping/schema"
 
 func (h *Handler) HPingPong(rw http.ResponseWriter, r *http.Request) {
-	var resp response.Response
-	ctx := r.Context()
+	var (
+		resp response.Response
+		ctx  context.Context = r.Context()
+	)
+
 	defer resp.WriterJSON(rw, ctx)
 
 	// Parse the string into time.Time
@@ -37,8 +41,11 @@ func (h *Handler) HPingPong(rw http.ResponseWriter, r *http.Request) {
 
 // HNotImplementation ...
 func (h *Handler) HNotImplementation(rw http.ResponseWriter, r *http.Request) {
-	var resp response.Response
-	ctx := r.Context()
+	var (
+		resp response.Response
+		ctx  context.Context = r.Context()
+	)
+
 	defer resp.WriterJSON(rw, ctx)
 
 	resp.Message = response.ErrNotImplementation.Error()
