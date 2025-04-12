@@ -42,7 +42,7 @@ func RegisterHooks(lifecycle fx.Lifecycle, server *net_http.Server) {
 		OnStart: func(context.Context) error {
 			fmt.Println("[Server] Starting HTTP server on", server.Addr)
 			go func() {
-				if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+				if err := server.ListenAndServe(); err != nil && err != net_http.ErrServerClosed {
 					fmt.Println("[Server] ListenAndServe error:", err)
 				}
 			}()
