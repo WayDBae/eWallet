@@ -19,8 +19,8 @@ func Postgres(params Dependencies) (con *gorm.DB) {
 		params.Config.Postgres.Username,
 		params.Config.Postgres.Password,
 		params.Config.Postgres.DatabaseName,
-		params.Config.Postgres.SSLMode,
 		fmt.Sprint(params.Config.Postgres.Port),
+		params.Config.Postgres.SSLMode,
 	)
 
 	con, err := gorm.Open(postgres.Open(dsn), &gorm.Config{Logger: logger.Default})
