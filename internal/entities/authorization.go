@@ -6,7 +6,7 @@ type Registration struct {
 	Patronymic  string `json:"patronymic"`
 	PhoneNumber string `json:"phone_number" validate:"required,len=12"`
 	Password    string `json:"password" validate:"required,min=8,max=100"`
-	OTPCode     string `json:"-"`
+	OTPCode     string `json:"otp_code"`
 }
 
 type OTPVerify struct {
