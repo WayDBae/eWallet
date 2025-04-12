@@ -53,13 +53,13 @@ func (h *Handler) HRegistration(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	// Sending a response
-	resp.Payload = code
 	resp.Message = response.ErrSuccess.Error()
+	resp.Payload = code
 }
 
 // swagger:operation POST /auth/registration Authorization authRegistration
 //
-// Вход в платформу
+// Регистрация в системе
 //
 // ## Роут предназначен для авторизации ранее зарегистрированного пользователя
 // Используемый <b>Authorization Flow</b> подразумевает сначала проверка введенных пользователем <b>credential</b> (phone, password)

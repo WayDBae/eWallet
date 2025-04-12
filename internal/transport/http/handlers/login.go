@@ -34,13 +34,17 @@ func (h *Handler) HLogin(rw http.ResponseWriter, r *http.Request) {
 	// 	return
 	// }
 
+	var test map[string]any = map[string]any{
+		"access_token": "Типо access_token",
+	}
 	// Sending a response
 	resp.Message = response.ErrSuccess.Error()
+	resp.Payload = test
 }
 
 // swagger:operation POST /auth/login Authorization authLogin
 //
-// Вход в платформу
+// Вход в систему
 //
 // ## Роут предназначен для авторизации ранее зарегистрированного пользователя
 // Используемый <b>Authorization Flow</b> подразумевает сначала проверка введенных пользователем <b>credential</b> (phone, password)

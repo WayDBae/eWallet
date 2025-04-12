@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/WayDBae/eWallet/internal/entities"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -29,9 +30,9 @@ func Postgres(params Dependencies) (con *gorm.DB) {
 		return
 	}
 
-	// err = con.AutoMigrate(&entities.User{})
-	// if err != nil {
-	// 	panic(err)
-	// }
+	err = con.AutoMigrate(&entities.User{})
+	if err != nil {
+		panic(err)
+	}
 	return
 }

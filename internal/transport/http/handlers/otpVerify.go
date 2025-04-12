@@ -57,6 +57,7 @@ func (h *Handler) HOTPVerify(rw http.ResponseWriter, r *http.Request) {
 		resp.Message = err.Error()
 		return
 	}
+
 	var test map[string]any = map[string]any{
 		"access_token": "Типо access_token",
 	}
@@ -65,9 +66,9 @@ func (h *Handler) HOTPVerify(rw http.ResponseWriter, r *http.Request) {
 	resp.Payload = test
 }
 
-// swagger:operation POST /auth/login Authorization authOTPVerify
+// swagger:operation POST /auth/otp-verify Authorization authOTPVerify
 //
-// Вход в платформу
+// Подтверждение номера пользователя по OTP после регистрации
 //
 // ## Роут предназначен для авторизации ранее зарегистрированного пользователя
 // Используемый <b>Authorization Flow</b> подразумевает сначала проверка введенных пользователем <b>credential</b> (phone, password)
@@ -78,7 +79,7 @@ func (h *Handler) HOTPVerify(rw http.ResponseWriter, r *http.Request) {
 // responses:
 //   200:
 //     description: |-
-//       ## Успешная авторизаиця
+//       ## Успешная авторизация
 //     schema:
 //       $ref: "#/responses/success/schema"
 //   400:

@@ -15,7 +15,7 @@ paths:
                 ## Роут предназначен для авторизации ранее зарегистрированного пользователя
                 Используемый <b>Authorization Flow</b> подразумевает сначала проверка введенных пользователем <b>credential</b> (phone, password)
                 После успешной проверки, пользователю высылается на номер телефона OTP код с временем жизни в <code>1 минуту</code>
-            operationId: authOTPVerify
+            operationId: authLogin
             parameters:
                 - in: body
                   name: Body
@@ -27,6 +27,13 @@ paths:
                             maxLength: 4
                             type: string
                             x-go-name: Code
+                        password:
+                            default: '!qwerty123'
+                            description: Пароль
+                            maxLength: 100
+                            minLength: 8
+                            type: string
+                            x-go-name: Password
                         phone_number:
                             default: "992911170603"
                             description: Телефонный номер
@@ -34,8 +41,9 @@ paths:
                             type: string
                             x-go-name: Phone
                     required:
-                        - phone_number
                         - otp_code
+                        - password
+                        - phone_number
                     type: object
             responses:
                 "200":
@@ -66,7 +74,67 @@ paths:
                     description: Internal Server Error or Something went wrong
                     schema:
                         $ref: '#/responses/internalServer/schema'
-            summary: Вход в платформу
+            summary: Вход в систему
+            tags:
+                - Authorization
+    /auth/otp-verify:
+        post:
+            description: |-
+                ## Роут предназначен для авторизации ранее зарегистрированного пользователя
+                Используемый <b>Authorization Flow</b> подразумевает сначала проверка введенных пользователем <b>credential</b> (phone, password)
+                После успешной проверки, пользователю высылается на номер телефона OTP код с временем жизни в <code>1 минуту</code>
+            operationId: authOTPVerify
+            parameters:
+                - in: body
+                  name: Body
+                  schema:
+                    properties:
+                        otp_code:
+                            default: "1234"
+                            description: Одноразовый код
+                            maxLength: 4
+                            type: string
+                            x-go-name: Code
+                        phone_number:
+                            default: "992911170603"
+                            description: Телефонный номер
+                            pattern: 992\d{9}$
+                            type: string
+                            x-go-name: Phone
+                    required:
+                        - phone_number
+                        - otp_code
+                    type: object
+            responses:
+                "200":
+                    description: '## Успешная авторизация'
+                    schema:
+                        $ref: '#/responses/success/schema'
+                "400":
+                    description: |-
+                        ## Неверный запрос
+                        Возможно, вам стоит перепроверить введенные данные
+
+                        Все возможные сообщения об ошибках в полезной нагрузке (payload):
+                        <ul>
+                          <li>Не верный OTP код</li>
+                          <li>Неправильный логин или пароль</li>
+                          <li>Одно или несколько полей пустые</li>
+                        </ul>
+                    schema:
+                        $ref: '#/responses/badRequest/schema'
+                "429":
+                    description: |-
+                        ## Retry Limit Exceeded
+                        Количество попыток: <code>4</code>
+                        Сбросить лимит после <code>5 минуты</code>
+                    schema:
+                        $ref: '#/responses/retryLimitExceeded/schema'
+                "500":
+                    description: Internal Server Error or Something went wrong
+                    schema:
+                        $ref: '#/responses/internalServer/schema'
+            summary: Подтверждение номера пользователя по OTP после регистрации
             tags:
                 - Authorization
     /auth/registration:
@@ -145,7 +213,7 @@ paths:
                     description: Internal Server Error or Something went wrong
                     schema:
                         $ref: '#/responses/internalServer/schema'
-            summary: Вход в платформу
+            summary: Регистрация в системе
             tags:
                 - Authorization
     /ping:
