@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -30,9 +29,6 @@ func (h *Handler) HPingPong(rw http.ResponseWriter, r *http.Request) {
 	var resp response.Response
 	ctx := r.Context()
 	defer resp.WriterJSON(rw, ctx)
-	log.Println("1")
-
-	const layout = "02/01/2006" // Define the date format
 
 	// Parse the string into time.Time
 	resp.Message = response.ErrSuccess.Error()
