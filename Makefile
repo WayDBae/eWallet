@@ -10,8 +10,8 @@ GREEN=\033[92m
 # Project dependencies
 DEPENDENCIES = Golang="go version" \
 			Postgres="psql -V" \
-			# Redis="redis-cli -v" \
-			# Swagger="swagger version" \
+			Redis="redis-cli -v" \
+			Swagger="swagger version" \
 
 # Build
 # TODO: Implement loader
@@ -71,14 +71,31 @@ docs:
 	@swagger generate spec -m -o $(PWD)/pkg/docs/swagger.yaml
 
 
-.PHONY: build-run
-build-run:
-	@cd $(PWD)/build/ && ./app
-	
 # Run project as dev
 .PHONY: run
 run:
 	@cd ./cmd && go run main.go
+
+.PHONY: render-run
+render-run:
+	@cd $(PWD)/cmd/ && ./app
+
+
+# Build
+# TODO: Implement loader
+# TODO: Add check for installed dependencies
+.PHONY: render-build
+render-build: render-check-go-dependencies
+	@echo "[+] Trying to build the application"
+	@cd ./cmd && go build -o $(PWD)/cmd/app
+
+	@printf "${GREEN}[●]${NC} The project has successfully passed the build! Don't forget to reload the service\n"
+
+render-check-go-dependencies:
+	@echo "[+] Checking golang dependencies..."
+	@go mod tidy
+	@go mod download
+
 
 .ONESHELL:
 	pass
