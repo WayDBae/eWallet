@@ -56,19 +56,22 @@ func (h *Handler) ServeSwaggerFiles(w http.ResponseWriter, r *http.Request) {
 	pwd, err := os.Getwd()
 	if err != nil {
 		h.logger.Error().Err(err).Msg("An error occurred in ServeSwaggerFiles")
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
 
 	// Формируем путь к файлам
-	swaggerPath := filepath.Join(pwd, "../pkg/docs")
+	swaggerPath, err := filepath.Abs(filepath.Join(pwd, "../pkg/docs"))
+	if err != nil {
+		h.logger.Error().Err(err).Msg("An error occurred while resolving absolute path")
+		return
+	}
+
 	h.logger.Debug().Str("pwd", pwd).Str("swaggerPath", swaggerPath).Msg("Debugging swagger path")
 
 	// Проверяем, существует ли файл swagger.yaml
 	yamlPath := filepath.Join(swaggerPath, "swagger.yaml")
 	if _, err := os.Stat(yamlPath); os.IsNotExist(err) {
 		h.logger.Error().Err(err).Str("file", yamlPath).Msg("swagger.yaml not found")
-		http.Error(w, "swagger.yaml not found", http.StatusNotFound)
 		return
 	}
 
@@ -76,7 +79,6 @@ func (h *Handler) ServeSwaggerFiles(w http.ResponseWriter, r *http.Request) {
 	jsonPath := filepath.Join(swaggerPath, "swagger.json")
 	if _, err := os.Stat(jsonPath); os.IsNotExist(err) {
 		h.logger.Error().Err(err).Str("file", jsonPath).Msg("swagger.json not found")
-		http.Error(w, "swagger.json not found", http.StatusNotFound)
 		return
 	}
 
