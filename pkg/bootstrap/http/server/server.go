@@ -26,7 +26,10 @@ type Dependecies struct {
 func NewServer(params Dependecies) *http.Server {
 	port := os.Getenv("PORT")
 	if port == "" {
+		fmt.Println("[Server] PORT env is empty, using config...")
 		port = fmt.Sprint(params.Config.Server.Port)
+	} else {
+		fmt.Println("[Server] Got PORT from env:", port)
 	}
 	url := net.JoinHostPort("", port)
 
