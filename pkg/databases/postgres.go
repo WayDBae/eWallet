@@ -13,12 +13,13 @@ import (
 // Postgres ...
 func Postgres(params Dependencies) (con *gorm.DB) {
 	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Dushanbe",
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=Asia/Dushanbe",
 
 		params.Config.Postgres.Host,
 		params.Config.Postgres.Username,
 		params.Config.Postgres.Password,
 		params.Config.Postgres.DatabaseName,
+		params.Config.Postgres.SSLMode,
 		fmt.Sprint(params.Config.Postgres.Port),
 	)
 
