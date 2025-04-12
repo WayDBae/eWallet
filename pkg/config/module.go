@@ -40,12 +40,6 @@ type Server struct {
 // 	PingEvery              int    `mapstructure:"pingEvery"`
 // }
 
-type Example struct {
-	Url      string `mapstructure:"url"`
-	Username string `mapstructure:"username"`
-	Password string `mapstructure:"password"`
-}
-
 type Redis struct {
 	URL string `mapstructure:"url"`
 }
@@ -66,8 +60,7 @@ type Config struct {
 	// Oracle   Oracle   `mapstructure:"oracle"`
 	Postgres Postgres `mapstructure:"postgres"`
 	// RabbitMQ RabbitMQ `mapstructure:"rabbitmq"`
-	Server  Server  `mapstructure:"server"`
-	Redis   Redis   `mapstructure:"redis"`
-	Example Example `mapstructure:"example"`
-	Logger  Logger  `mapstructure:"logger"`
+	Server Server `mapstructure:"server"`
+	Redis  Redis  `mapstructure:"redis"`
+	Logger Logger `mapstructure:"logger"`
 }

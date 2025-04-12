@@ -53,6 +53,6 @@ func NewGExample(params Params) GExample {
 		GExample.logger.Error().Err(err).Msg("An error occurred in Score ping")
 	}
 
-	GExample.logger.Info().Err(err).Interface("Example url", params.Config.Example.Url).Send()
+	// GExample.logger.Info().Err(err).Interface("Example url", params.Config.Example.Url).Send()
 	return GExample
 }

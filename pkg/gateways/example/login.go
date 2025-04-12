@@ -12,7 +12,7 @@ import (
 )
 
 func (p *provider) Login(ctx context.Context) (err error) {
-	url := p.config.Example.Url + "/login/token"
+	// url := p.config.Example.Url + "/login/token"
 	method := "POST"
 
 	payload, err := json.Marshal(nil)
@@ -26,7 +26,7 @@ func (p *provider) Login(ctx context.Context) (err error) {
 		Timeout: timeout,
 	}
 
-	req, err := http.NewRequest(method, url, bytes.NewReader(payload))
+	req, err := http.NewRequest(method, "url", bytes.NewReader(payload))
 
 	if err != nil {
 		p.logger.Error().Ctx(ctx).Err(err).Msg("An error occurred while tring to create request in example Login")
