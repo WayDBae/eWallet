@@ -1,8 +1,10 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/WayDBae/eWallet/pkg/bootstrap/http/misc/response"
@@ -28,6 +30,7 @@ func (h *Handler) HPingPong(rw http.ResponseWriter, r *http.Request) {
 	var resp response.Response
 	ctx := r.Context()
 	defer resp.WriterJSON(rw, ctx)
+	log.Println("1")
 
 	const layout = "02/01/2006" // Define the date format
 
@@ -52,10 +55,13 @@ func (h *Handler) ServeSwaggerFiles(w http.ResponseWriter, r *http.Request) {
 		h.logger.Error().Err(err).Msg("An error occurred in ServeSwaggerFiles")
 	}
 
+	// Используем filepath.Join для корректного формирования пути
+	swaggerPath := filepath.Join(pwd, "../pkg/docs")
+
 	if strings.Contains(r.URL.String(), "yaml") {
-		http.ServeFile(w, r, pwd+"/../pkg/docs/swagger.yaml")
+		http.ServeFile(w, r, filepath.Join(swaggerPath, "swagger.yaml"))
 		return
 	}
 
-	http.ServeFile(w, r, pwd+"/../pkg/docs/swagger.json")
+	http.ServeFile(w, r, filepath.Join(swaggerPath, "swagger.json"))
 }

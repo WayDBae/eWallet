@@ -6,7 +6,6 @@ import (
 	"github.com/WayDBae/eWallet/internal/transport/http/handlers"
 	"github.com/WayDBae/eWallet/pkg/bootstrap/http/middlewares"
 	transportHTTP "github.com/WayDBae/eWallet/pkg/bootstrap/http/router"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func AdaptHandler(h http.Handler) http.HandlerFunc {
@@ -25,6 +24,6 @@ func NewRouter(h *handlers.Handler, mw middlewares.Middleware) (router *transpor
 
 	router.POST("/auth/login", h.HLogin, mw.CORS)
 	router.GET("/ping", h.HPingPong, mw.CORS)
-	router.GET("/metrics", AdaptHandler(promhttp.Handler()), mw.CORS)
+	// router.GET("/metrics", AdaptHandler(promhttp.Handler()), mw.CORS)
 	return
 }
