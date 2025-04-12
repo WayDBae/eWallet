@@ -31,7 +31,7 @@ func NewServer(params Dependecies) *http.Server {
 	} else {
 		fmt.Println("[Server] Got PORT from env:", port)
 	}
-	url := net.JoinHostPort("", port)
+	url := net.JoinHostPort(params.Config.Server.Host, port)
 
 	return &http.Server{
 		MaxHeaderBytes: 32 << 20, // 32 Mb
