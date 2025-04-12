@@ -14,6 +14,7 @@ var Module = fx.Provide(NewBAuth)
 
 type BAuth interface {
 	Registration(data entities.Registration, ctx context.Context) (code string, err error)
+	// Проверка на OTP
 	OTPVerify(data entities.OTPVerify, ctx context.Context) (err error)
 }
 
