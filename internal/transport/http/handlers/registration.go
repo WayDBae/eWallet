@@ -40,7 +40,7 @@ func (h *Handler) HRegistration(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if len(data.Password) > 8 {
+	if len(data.Password) < 8 {
 		resp.Message = response.ErrPasswordLen.Error()
 		return
 	}
@@ -57,7 +57,7 @@ func (h *Handler) HRegistration(rw http.ResponseWriter, r *http.Request) {
 	resp.Message = response.ErrSuccess.Error()
 }
 
-// swagger:operation POST /auth/registration Authorization authLogin
+// swagger:operation POST /auth/registration Authorization authRegistration
 //
 // Вход в платформу
 //

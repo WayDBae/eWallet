@@ -13,3 +13,24 @@ type swaggerAuthLogin struct {
 		swaggerPhone
 	}
 }
+
+// swagger:parameters authRegistration
+type swaggerAuthRegistration struct {
+	// in:body
+	Body struct {
+		swaggerName
+		swaggerSurname
+		swaggerPatronymic
+		swaggerPhone
+		swaggerPassword
+	}
+}
+
+// swagger:parameters authOTPVerify
+type swaggerAuthOTPVerify struct {
+	//in:body
+	Body struct {
+		swaggerPhone
+		swaggerOtpCode
+	}
+}

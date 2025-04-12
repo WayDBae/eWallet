@@ -15,7 +15,7 @@ type swaggerOtpCode struct {
 	// required: true
 	// max length: 4
 	// default: 1234
-	Code string `json:"code"`
+	Code string `json:"otp_code"`
 }
 
 type swaggerPassword struct {
@@ -32,7 +32,31 @@ type swaggerPhone struct {
 	// Телефонный номер
 	//
 	// required: true
-	// default: 992000331341
+	// default: 992911170603
 	// pattern: 992\d{9}$
-	Phone string `json:"phone"`
+	Phone string `json:"phone_number"`
+}
+
+type swaggerName struct {
+	// Имя пользователя
+	//
+	// required: true
+	// default: Далер
+	Name string `json:"name"`
+}
+
+type swaggerSurname struct {
+	// Фамилия пользователя
+	//
+	// required: true
+	// default: Хайраков
+	Surname string `json:"surname"`
+}
+
+type swaggerPatronymic struct {
+	// Отчество пользователя
+	//
+	// required: true
+	// default: Химатджонович
+	Patronymic string `json:"patronymic"`
 }

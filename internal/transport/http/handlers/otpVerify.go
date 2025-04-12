@@ -65,7 +65,7 @@ func (h *Handler) HOTPVerify(rw http.ResponseWriter, r *http.Request) {
 	resp.Payload = test
 }
 
-// swagger:operation POST /auth/login Authorization authLogin
+// swagger:operation POST /auth/login Authorization authOTPVerify
 //
 // Вход в платформу
 //

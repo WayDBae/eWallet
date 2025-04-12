@@ -3,10 +3,10 @@ consumes:
     - application/json
 info:
     description: |-
-        ## Сервис Конвеера заявок Хумо для работы с внешними платформами
+        ## Сервис web-кошелька
 
-        Данный сервис был создан чтобы сделать Application не зависимым от других платформ, единственное что можно будет заменять это его Bridge (от англ. Мост)
-    title: Application Bridge
+        Данный сервис был создан для того чтобы показать преимущества и простоту использования web-кошельков
+    title: eWallet
     version: 0.0.1
 paths:
     /auth/login:
@@ -15,18 +15,77 @@ paths:
                 ## Роут предназначен для авторизации ранее зарегистрированного пользователя
                 Используемый <b>Authorization Flow</b> подразумевает сначала проверка введенных пользователем <b>credential</b> (phone, password)
                 После успешной проверки, пользователю высылается на номер телефона OTP код с временем жизни в <code>1 минуту</code>
-            operationId: authLogin
+            operationId: authOTPVerify
             parameters:
                 - in: body
                   name: Body
                   schema:
                     properties:
-                        code:
+                        otp_code:
                             default: "1234"
                             description: Одноразовый код
                             maxLength: 4
                             type: string
                             x-go-name: Code
+                        phone_number:
+                            default: "992911170603"
+                            description: Телефонный номер
+                            pattern: 992\d{9}$
+                            type: string
+                            x-go-name: Phone
+                    required:
+                        - phone_number
+                        - otp_code
+                    type: object
+            responses:
+                "200":
+                    description: '## Успешная авторизаиця'
+                    schema:
+                        $ref: '#/responses/success/schema'
+                "400":
+                    description: |-
+                        ## Неверный запрос
+                        Возможно, вам стоит перепроверить введенные данные
+
+                        Все возможные сообщения об ошибках в полезной нагрузке (payload):
+                        <ul>
+                          <li>Не верный OTP код</li>
+                          <li>Неправильный логин или пароль</li>
+                          <li>Одно или несколько полей пустые</li>
+                        </ul>
+                    schema:
+                        $ref: '#/responses/badRequest/schema'
+                "429":
+                    description: |-
+                        ## Retry Limit Exceeded
+                        Количество попыток: <code>4</code>
+                        Сбросить лимит после <code>5 минуты</code>
+                    schema:
+                        $ref: '#/responses/retryLimitExceeded/schema'
+                "500":
+                    description: Internal Server Error or Something went wrong
+                    schema:
+                        $ref: '#/responses/internalServer/schema'
+            summary: Вход в платформу
+            tags:
+                - Authorization
+    /auth/registration:
+        post:
+            description: |-
+                ## Роут предназначен для авторизации ранее зарегистрированного пользователя
+                Используемый <b>Authorization Flow</b> подразумевает сначала проверка введенных пользователем <b>credential</b> (phone, password)
+                После успешной проверки, пользователю высылается на номер телефона OTP код с временем жизни в <code>1 минуту</code>
+            operationId: authRegistration
+            parameters:
+                - in: body
+                  name: Body
+                  schema:
+                    properties:
+                        name:
+                            default: Далер
+                            description: Имя пользователя
+                            type: string
+                            x-go-name: Name
                         password:
                             default: '!qwerty123'
                             description: Пароль
@@ -34,16 +93,28 @@ paths:
                             minLength: 8
                             type: string
                             x-go-name: Password
-                        phone:
-                            default: "992000331341"
+                        patronymic:
+                            default: Химатджонович
+                            description: Отчество пользователя
+                            type: string
+                            x-go-name: Patronymic
+                        phone_number:
+                            default: "992911170603"
                             description: Телефонный номер
                             pattern: 992\d{9}$
                             type: string
                             x-go-name: Phone
+                        surname:
+                            default: Хайраков
+                            description: Фамилия пользователя
+                            type: string
+                            x-go-name: Surname
                     required:
-                        - code
+                        - name
+                        - surname
+                        - patronymic
+                        - phone_number
                         - password
-                        - phone
                     type: object
             responses:
                 "200":
