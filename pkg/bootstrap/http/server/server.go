@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net"
 	"net/http"
-	"os"
 
 	"github.com/WayDBae/eWallet/pkg/bootstrap/http/router"
 	"github.com/WayDBae/eWallet/pkg/config"
@@ -24,14 +23,7 @@ type Dependecies struct {
 
 // NewServer ...
 func NewServer(params Dependecies) *http.Server {
-	port := os.Getenv("PORT")
-	if port == "" {
-		fmt.Println("[Server] PORT env is empty, using config...")
-		port = fmt.Sprint(params.Config.Server.Port)
-	} else {
-		fmt.Println("[Server] Got PORT from env:", port)
-	}
-	url := net.JoinHostPort(params.Config.Server.Host, port)
+	url := net.JoinHostPort(params.Config.Server.Host, fmt.Sprint(params.Config.Server.Port))
 
 	return &http.Server{
 		MaxHeaderBytes: 32 << 20, // 32 Mb
