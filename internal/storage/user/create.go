@@ -5,23 +5,17 @@ import (
 
 	"github.com/WayDBae/eWallet/internal/entities"
 	"github.com/WayDBae/eWallet/pkg/bootstrap/http/misc/response"
-	"gorm.io/gorm"
 )
 
 func (p *provider) Create(data entities.User, ctx context.Context) (user entities.User, err error) {
-	err = p.postgres.Where(data).
-		First(&user).
-		Error
+	// Создание нового пользователя
+	err = p.postgres.WithContext(ctx).Create(&data).Error
 	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			p.logger.Error().Err(err).Interface("phone", data.ID).Msg("An error occurred while trying to get user")
-			err = response.ErrDataNotFound
-			return
-		}
-
+		p.logger.Error().Err(err).Interface("user", data).Msg("Failed to create user")
 		err = response.ErrInternalServer
 		return
 	}
 
+	user = data
 	return
 }

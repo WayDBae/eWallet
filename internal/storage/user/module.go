@@ -14,6 +14,7 @@ var Module = fx.Provide(NewSUser)
 type SUser interface {
 	Get(data entities.User, ctx context.Context) (user entities.User, err error)
 	GetByPhone(phone string, ctx context.Context) (user entities.User, err error)
+	Create(data entities.User, ctx context.Context) (user entities.User, err error)
 }
 
 type provider struct {

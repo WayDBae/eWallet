@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 	"regexp"
 	"unicode/utf8"
@@ -26,7 +27,13 @@ func (p *provider) Registration(data entities.Registration, ctx context.Context)
 
 	code = utils.GenerateOTPWithLocalRand()
 
-	err = p.rdb.Set(data.PhoneNumber, code, ctx)
+	data.OTPCode = code
+
+	marshaledData, err := json.Marshal(data)
+	if err != nil {
+		return
+	}
+	err = p.rdb.Set(data.PhoneNumber, string(marshaledData), ctx)
 	if err != nil {
 		return
 	}

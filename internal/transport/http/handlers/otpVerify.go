@@ -40,27 +40,28 @@ func (h *Handler) HOTPVerify(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = strconv.Atoi(data.OtpCode)
+	_, err = strconv.Atoi(data.OTPCode)
 	if err != nil {
 		resp.Message = response.ErrBadRequest.Error()
 		return
 	}
 
-	if data.OtpCode == "" || len(data.OtpCode) != 4 {
+	if data.OTPCode == "" || len(data.OTPCode) != 4 {
 		resp.Message = response.ErrBadRequest.Error()
 		return
 	}
 
 	// Execution of business logic
-	err = h.auth.OTPVerify(data, ctx)
+	token, err := h.auth.OTPVerify(data, ctx)
 	if err != nil {
 		resp.Message = err.Error()
 		return
 	}
 
 	var test map[string]any = map[string]any{
-		"access_token": "Типо access_token",
+		"access_token": token,
 	}
+	
 	// Sending a response
 	resp.Message = response.ErrSuccess.Error()
 	resp.Payload = test
