@@ -47,9 +47,7 @@ type Example struct {
 }
 
 type Redis struct {
-	Host     string `mapstructure:"host"`
-	Port     string `mapstructure:"port"`
-	Password string `mapstructure:"password"`
+	URL string `mapstructure:"url"`
 }
 
 // type RabbitMQ struct {

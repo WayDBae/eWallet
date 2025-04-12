@@ -9,16 +9,17 @@ import (
 
 // NewRedisClient создает новый клиент Redis
 func Redis(params Dependencies) (client *redis.Client) {
-	client = redis.NewClient(&redis.Options{
-		Addr:     fmt.Sprintf("%s:%s", params.Config.Redis.Host, params.Config.Redis.Port), // Адрес Redis сервера
-		Password: "",                                                                       // Пароль (если есть)
-		DB:       0,                                                                        // Номер базы данных
-	})
+	opt, err := redis.ParseURL(params.Config.Redis.URL)
+	if err != nil {
+		panic("err while trying to parse url")
+	}
+
+	client = redis.NewClient(opt)
 
 	// Проверяем подключение
 
 	if err := client.Ping(context.Background()).Err(); err != nil {
-		panic("s")
+		params.Logger.Warn().Err(err).Msg("An error occurred while trying to ping redis host")
 	}
 
 	fmt.Println("Successfully connected to Redis!")
