@@ -56,16 +56,34 @@ func (h *Handler) ServeSwaggerFiles(w http.ResponseWriter, r *http.Request) {
 	pwd, err := os.Getwd()
 	if err != nil {
 		h.logger.Error().Err(err).Msg("An error occurred in ServeSwaggerFiles")
-	}
-
-	// Используем filepath.Join для корректного формирования пути
-	swaggerPath := filepath.Join(pwd, "../pkg/docs")
-	h.logger.Debug().Err(err).Str("pwd", pwd).Str("swaggerPath", swaggerPath).Msg("Debugging swagger path")
-
-	if strings.Contains(r.URL.String(), "yaml") {
-		http.ServeFile(w, r, filepath.Join(swaggerPath, "swagger.yaml"))
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
 
-	http.ServeFile(w, r, filepath.Join(swaggerPath, "swagger.json"))
+	// Формируем путь к файлам
+	swaggerPath := filepath.Join(pwd, "../pkg/docs")
+	h.logger.Debug().Str("pwd", pwd).Str("swaggerPath", swaggerPath).Msg("Debugging swagger path")
+
+	// Проверяем, существует ли файл swagger.yaml
+	yamlPath := filepath.Join(swaggerPath, "swagger.yaml")
+	if _, err := os.Stat(yamlPath); os.IsNotExist(err) {
+		h.logger.Error().Err(err).Str("file", yamlPath).Msg("swagger.yaml not found")
+		http.Error(w, "swagger.yaml not found", http.StatusNotFound)
+		return
+	}
+
+	// Проверяем, существует ли файл swagger.json
+	jsonPath := filepath.Join(swaggerPath, "swagger.json")
+	if _, err := os.Stat(jsonPath); os.IsNotExist(err) {
+		h.logger.Error().Err(err).Str("file", jsonPath).Msg("swagger.json not found")
+		http.Error(w, "swagger.json not found", http.StatusNotFound)
+		return
+	}
+
+	// Если все файлы существуют, отдаём их
+	if strings.Contains(r.URL.String(), "yaml") {
+		http.ServeFile(w, r, yamlPath)
+	} else {
+		http.ServeFile(w, r, jsonPath)
+	}
 }
