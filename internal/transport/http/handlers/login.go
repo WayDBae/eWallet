@@ -15,7 +15,7 @@ func (h *Handler) HLogin(rw http.ResponseWriter, r *http.Request) {
 	defer resp.WriterJSON(rw, ctx)
 
 	// Extracting data from a request
-	var data entities.OtpSession
+	var data entities.AuthLogin
 
 	decoder := json.NewDecoder(r.Body)
 	decoder.DisallowUnknownFields()

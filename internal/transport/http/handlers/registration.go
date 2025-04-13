@@ -16,7 +16,7 @@ func (h *Handler) HRegistration(rw http.ResponseWriter, r *http.Request) {
 	defer resp.WriterJSON(rw, ctx)
 
 	// Extracting data from a request
-	var data entities.Registration
+	var data entities.AuthRegistration
 
 	decoder := json.NewDecoder(r.Body)
 	decoder.DisallowUnknownFields()

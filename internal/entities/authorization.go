@@ -1,6 +1,6 @@
 package entities
 
-type Registration struct {
+type AuthRegistration struct {
 	Name        string `json:"name"`
 	Surname     string `json:"surname"`
 	Patronymic  string `json:"patronymic"`
@@ -9,7 +9,7 @@ type Registration struct {
 	OTPCode     string `json:"otp_code"`
 }
 
-type OTPVerify struct {
+type AuthOTPVerify struct {
 	PhoneNumber string `json:"phone_number"`
 	OTPCode     string `json:"otp_code" validate:"required,len=4"`
 }
@@ -24,4 +24,9 @@ type OtpSession struct {
 	Phone         string `json:"phone"`
 	OTPCode       string `json:"otp_code" validate:"required,len=4"`
 	Password      string `json:"password" validate:"required,min=8,max=100"`
+}
+
+type AuthLogin struct {
+	PhoneNumber string `json:"phone_number" validate:"required,len=12"`
+	Password    string `json:"password" validate:"required,min=8,max=100"`
 }

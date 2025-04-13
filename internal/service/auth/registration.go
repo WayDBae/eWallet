@@ -12,7 +12,7 @@ import (
 	"github.com/WayDBae/eWallet/pkg/utils"
 )
 
-func (p *provider) Registration(data entities.Registration, ctx context.Context) (code string, err error) {
+func (p *provider) Registration(data entities.AuthRegistration, ctx context.Context) (code string, err error) {
 	for _, value := range []string{data.Name, data.Surname, data.Patronymic} {
 		err = validateName(value)
 		if err != nil {

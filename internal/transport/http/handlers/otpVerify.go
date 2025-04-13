@@ -16,7 +16,7 @@ func (h *Handler) HOTPVerify(rw http.ResponseWriter, r *http.Request) {
 	defer resp.WriterJSON(rw, ctx)
 
 	// Extracting data from a request
-	var data entities.OTPVerify
+	var data entities.AuthOTPVerify
 
 	decoder := json.NewDecoder(r.Body)
 	decoder.DisallowUnknownFields()

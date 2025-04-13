@@ -13,6 +13,7 @@ var Module = fx.Provide(NewSRedis)
 type SRedis interface {
 	Get(phone string, ctx context.Context) (data string, err error)
 	Set(phone, data string, ctx context.Context) (err error)
+	Delete(phone string, ctx context.Context) (err error)
 }
 
 type provider struct {
