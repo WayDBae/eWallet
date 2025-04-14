@@ -44,14 +44,13 @@ func (h *Handler) HLogin(rw http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// swagger:operation POST /auth/otp-verify Authorization authOTPVerify
+// swagger:operation POST /auth/login Authorization authLogin
 //
-// Подтверждение номера телефона пользователя по OTP после регистрации
+// Вход в систему
 //
-// ## Роут предназначен для подтверждения номера телефона пользователя после регистрации.
+// ## Роут предназначен для авторизации ранее зарегистрированного пользователя
 //
-// Используемый <b>OTP Verification Flow</b> подразумевает, что пользователь вводит полученный OTP-код, который был отправлен на его номер телефона.
-// Время жизни OTP-кода составляет <code>1 минуту</code>. Если код подтверждения правильный, пользователь может продолжить процесс регистрации или авторизации.
+// Используемый <b>Authorization Flow</b> подразумевает сначала проверка введенных пользователем <b>credential</b> (phone, password)
 //
 // ---
 //
@@ -70,17 +69,9 @@ func (h *Handler) HLogin(rw http.ResponseWriter, r *http.Request) {
 //
 //       Все возможные сообщения об ошибках в полезной нагрузке (payload):
 //       <ul>
-//         <li>Не верный OTP код</li>
 //         <li>Неправильный логин или пароль</li>
 //         <li>Одно или несколько полей пустые</li>
 //       </ul>
-//   429:
-//     description: |-
-//       ## Retry Limit Exceeded
-//       Количество попыток: <code>4</code>
-//       Сбросить лимит после <code>5 минуты</code>
-//     schema:
-//       $ref: "#/responses/retryLimitExceeded/schema"
 //   500:
 //     description: |-
 //       Internal Server Error or Something went wrong
