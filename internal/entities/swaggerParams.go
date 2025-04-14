@@ -9,7 +9,7 @@ type swaggerAuthLogin struct {
 	// in:body
 	Body struct {
 		swaggerPassword
-		swaggerPhone
+		swaggerPhoneNumber
 	}
 }
 
@@ -20,24 +20,24 @@ type swaggerAuthRegistration struct {
 		swaggerName
 		swaggerSurname
 		swaggerPatronymic
-		swaggerPhone
+		swaggerPhoneNumber
 		swaggerPassword
-	}
-}
-
-// swagger:parameters authOTPVerify
-type swaggerAuthOTPVerify struct {
-	//in:body
-	Body struct {
-		swaggerPhone
-		swaggerOtpCode
 	}
 }
 
 // swagger:parameters authRefreshToken
 type swaggerAuthRefresh struct {
-	//in:body
+	// in:body
 	Body struct {
 		swaggerRefreshToken
+	}
+}
+
+// swagger:parameters authOTPVerify
+type swaggerAuthOTPVerify struct {
+	// in:body
+	Body struct {
+		swaggerPhoneNumber
+		swaggerOtpCode
 	}
 }

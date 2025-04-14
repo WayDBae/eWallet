@@ -28,7 +28,7 @@ type swaggerPassword struct {
 	Password string `json:"password"`
 }
 
-type swaggerPhone struct {
+type swaggerPhoneNumber struct {
 	// Телефонный номер
 	//
 	// required: true
@@ -65,5 +65,6 @@ type swaggerRefreshToken struct {
 	// Рефреш токен
 	//
 	// required: true
+	// default: test
 	RefreshToken string `json:"refresh_token"`
 }

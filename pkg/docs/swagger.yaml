@@ -188,9 +188,11 @@ paths:
     /auth/registration:
         post:
             description: |-
-                ## Роут предназначен для авторизации ранее зарегистрированного пользователя
-                Используемый <b>Authorization Flow</b> подразумевает сначала проверка введенных пользователем <b>credential</b> (phone, password)
-                После успешной проверки, пользователю высылается на номер телефона OTP код с временем жизни в <code>1 минуту</code>
+                ## Роут предназначен для регистрации нового пользователя в системе.
+
+                Используемый <b>Registration Flow</b> подразумевает отправку номера телефона и пароля.
+                После получения данных, на указанный номер телефона отправляется OTP-код для подтверждения личности.
+                Время жизни OTP-кода составляет <code>5 минут</code>.
             operationId: authRegistration
             parameters:
                 - in: body
@@ -245,7 +247,9 @@ paths:
                         Все возможные сообщения об ошибках в полезной нагрузке (payload):
                         <ul>
                           <li>Не верный OTP код</li>
-                          <li>Неправильный логин или пароль</li>
+                          <li>Ваше имя слишком короткое</li>
+                          <li>Ваше имя содержит символы</li>
+                          <li>Пароль должен содержать как минимум 8 символов</li>
                         </ul>
                     schema:
                         $ref: '#/responses/badRequest/schema'
@@ -253,7 +257,7 @@ paths:
                     description: Internal Server Error or Something went wrong
                     schema:
                         $ref: '#/responses/internalServer/schema'
-            summary: Регистрация в системе
+            summary: Регистрация нового пользователя
             tags:
                 - Authorization
     /ping:
@@ -341,6 +345,21 @@ responses:
                     x-go-name: Message
                 payload:
                     example: "null"
+                    x-go-name: Payload
+            type: object
+    passwordLen:
+        description: ""
+        headers:
+            Data: {}
+        schema:
+            properties:
+                message:
+                    default: Пароль должен содержать как минимум 8 символов
+                    type: string
+                    x-go-name: Message
+                payload:
+                    default: "null"
+                    type: string
                     x-go-name: Payload
             type: object
     ping:

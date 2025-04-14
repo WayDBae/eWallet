@@ -10,7 +10,7 @@ type AuthRegistration struct {
 }
 
 type AuthOTPVerify struct {
-	PhoneNumber string `json:"phone_number"`
+	PhoneNumber string `json:"phone_number" validate:"required,len=12"`
 	OTPCode     string `json:"otp_code" validate:"required,len=4"`
 }
 
