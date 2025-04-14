@@ -307,11 +307,11 @@ responses:
         schema:
             properties:
                 message:
-                    example: Успешно
+                    default: Успешно
                     type: string
                     x-go-name: Message
                 payload:
-                    example: Clean arch pong!
+                    default: "Clean arch pong! \U0001F94E"
                     type: string
                     x-go-name: Payload
             type: object

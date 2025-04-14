@@ -5,9 +5,9 @@ package entities
 // swagger:response ping
 type swaggerPing struct {
 	Data struct {
-		// example: Успешно
+		// default: Успешно
 		Message string `json:"message"`
-		// example: Clean arch pong!
+		// default: Clean arch pong! 🥎
 		Payload string `json:"payload"`
 	}
 }

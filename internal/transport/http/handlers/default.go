@@ -36,7 +36,7 @@ func (h *Handler) HPingPong(rw http.ResponseWriter, r *http.Request) {
 
 	// Parse the string into time.Time
 	resp.Message = response.ErrSuccess.Error()
-	resp.Payload = "Clean arch pong!"
+	resp.Payload = "Clean arch pong! 🥎"
 }
 
 // HNotImplementation ...
