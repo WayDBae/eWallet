@@ -3,14 +3,26 @@ package auth
 import (
 	"context"
 	"encoding/json"
+	"strconv"
 	"time"
 
 	"github.com/WayDBae/eWallet/internal/entities"
 	"github.com/WayDBae/eWallet/pkg/bootstrap/http/misc/response"
-	"github.com/golang-jwt/jwt/v5"
 )
 
-func (p *provider) OTPVerify(data entities.AuthOTPVerify, ctx context.Context) (signedToken string, err error) {
+func (p *provider) OTPVerify(data entities.AuthOTPVerify, ctx context.Context) (accessToken, refreshToken string, err error) {
+	_, err = strconv.Atoi(data.PhoneNumber[len(data.PhoneNumber)-9:])
+	if err != nil {
+		err = response.ErrBadRequest
+		return
+	}
+
+	_, err = strconv.Atoi(data.PhoneNumber)
+	if err != nil {
+		err = response.ErrBadRequest
+		return
+	}
+
 	value, err := p.rdb.Get(data.PhoneNumber, ctx)
 	if err != nil {
 		return
@@ -58,25 +70,13 @@ func (p *provider) OTPVerify(data entities.AuthOTPVerify, ctx context.Context) (
 		return
 	}
 
-	// Секретный ключ для подписи JWT-токена
-	// Необходимо хранить в безопасном месте
-	var jwtSecretKey = []byte(p.config.Server.SecretKey)
-
-	// Генерируем полезные данные, которые будут храниться в токене
-	claims := entities.CustomClaims{
-		RegisteredClaims: jwt.RegisteredClaims{
-			Subject:   user.ID.String(),
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 1)),
-			IssuedAt:  jwt.NewNumericDate(time.Now()),
-		},
+	accessToken, err = p.jwt.GenerateAccessToken(user, time.Minute*15, ctx)
+	if err != nil {
+		return
 	}
 
-	// Создаем новый JWT-токен и подписываем его по алгоритму HS256
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
-	signedToken, err = token.SignedString(jwtSecretKey)
+	refreshToken, err = p.jwt.GenerateRefreshToken(user, time.Hour*24*7, ctx)
 	if err != nil {
-		p.logger.Error().Err(err).Interface("user_id", user.ID).Msg("JWT token signing")
 		return
 	}
 

@@ -8,7 +8,6 @@ package entities
 type swaggerAuthLogin struct {
 	// in:body
 	Body struct {
-		swaggerOtpCode
 		swaggerPassword
 		swaggerPhone
 	}
@@ -32,5 +31,13 @@ type swaggerAuthOTPVerify struct {
 	Body struct {
 		swaggerPhone
 		swaggerOtpCode
+	}
+}
+
+// swagger:parameters authRefreshToken
+type swaggerAuthRefresh struct {
+	//in:body
+	Body struct {
+		swaggerRefreshToken
 	}
 }

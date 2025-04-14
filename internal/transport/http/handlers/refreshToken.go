@@ -5,17 +5,20 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/WayDBae/eWallet/internal/entities"
 	"github.com/WayDBae/eWallet/pkg/bootstrap/http/misc/response"
 )
 
-// HLogin - Вход
-func (h *Handler) HLogin(rw http.ResponseWriter, r *http.Request) {
+type RefreshToken struct {
+	Token string `json:"refresh_token"`
+}
+
+// HRefreshToken - Обновление токена
+func (h *Handler) HRefreshToken(rw http.ResponseWriter, r *http.Request) {
 	var (
-		resp response.Response
-		ctx  context.Context = r.Context()
+		resp            response.Response
+		ctx             context.Context = r.Context()
+		oldRefreshToken RefreshToken
 		// Extracting data from a request
-		data entities.AuthLogin
 	)
 
 	defer resp.WriterJSON(rw, ctx)
@@ -24,13 +27,13 @@ func (h *Handler) HLogin(rw http.ResponseWriter, r *http.Request) {
 	decoder.DisallowUnknownFields()
 
 	// Сheck the integrity of the received data
-	err := decoder.Decode(&data)
-	if err != nil {
-		resp.Message = response.ErrBadRequest.Error()
+	err := decoder.Decode(&oldRefreshToken)
+	if err != nil || oldRefreshToken.Token == "" {
+		resp.Message = response.ErrInvalidToken.Error()
 		return
 	}
 
-	accessToken, refreshToken, err := h.auth.Login(data, ctx)
+	accessToken, refreshToken, err := h.auth.Refresh(oldRefreshToken.Token, ctx)
 	if err != nil {
 		resp.Message = err.Error()
 		return
@@ -44,13 +47,14 @@ func (h *Handler) HLogin(rw http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// swagger:operation POST /auth/login Authorization authLogin
+// swagger:operation POST /auth/refresh Authorization authRefreshToken
 //
-// Вход в систему
+// Обновление токенов
 //
-// ## Роут предназначен для авторизации ранее зарегистрированного пользователя
-// Используемый <b>Authorization Flow</b> подразумевает сначала проверка введенных пользователем <b>credential</b> (phone, password)
-// После успешной проверки, пользователю высылается на номер телефона OTP код с временем жизни в <code>1 минуту</code>
+// ## Роут предназначен для получения новой пары токенов (access и refresh) по действующему refresh-токену.
+//
+// Пользователь должен передать refresh токен в теле запроса.
+// Access токен не требуется.
 //
 // ---
 //
@@ -69,10 +73,14 @@ func (h *Handler) HLogin(rw http.ResponseWriter, r *http.Request) {
 //
 //       Все возможные сообщения об ошибках в полезной нагрузке (payload):
 //       <ul>
-//         <li>Не верный OTP код</li>
-//         <li>Неправильный логин или пароль</li>
-//         <li>Одно или несколько полей пустые</li>
+//         <li>Отсутствует refresh токен</li>
+//         <li>Невалидный формат токена</li>
 //       </ul>
+//   401:
+//     description: |-
+//       ## Недействительный или просроченный refresh токен
+//     schema:
+//       $ref: "#/responses/unauthorized/schema"
 //   429:
 //     description: |-
 //       ## Retry Limit Exceeded

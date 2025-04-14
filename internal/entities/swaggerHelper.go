@@ -60,3 +60,10 @@ type swaggerPatronymic struct {
 	// default: Химатджонович
 	Patronymic string `json:"patronymic"`
 }
+
+type swaggerRefreshToken struct {
+	// Рефреш токен
+	//
+	// required: true
+	RefreshToken string `json:"refresh_token"`
+}

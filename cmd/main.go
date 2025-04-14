@@ -6,6 +6,7 @@ import (
 
 	net_http "net/http"
 
+	"github.com/WayDBae/eWallet/internal/helpers"
 	"github.com/WayDBae/eWallet/internal/service"
 	"github.com/WayDBae/eWallet/internal/storage"
 	"github.com/WayDBae/eWallet/internal/transport/http/handlers"
@@ -27,6 +28,7 @@ func main() {
 		storage.Module,
 		handlers.Module,
 		router.Module,
+		helpers.Module,
 		// gateways.Module,
 		ModuleLifecycleHooks,
 	)

@@ -22,10 +22,13 @@ var (
 	ErrWaitingApplicationFromBasket = errors.New("В ожидании получения новой заявки")
 
 	ErrBadRequest    = errors.New("Неверный запрос")
+	ErrInvalidToken  = errors.New("Неверный токен")
+	ErrExpiredToken  = errors.New("Токен просрочен")
 	ErrSmallLenName  = errors.New("Ваше имя слишком короткое")
 	ErrIncorrectName = errors.New("Ваше имя содержит символы")
 	ErrIncorrectOTP  = errors.New("Неверный OTP")
 	ErrPasswordLen   = errors.New("Пароль должен содержать как минимум 8 символов")
+	ErrWrongPassword = errors.New("Неправильный пароль")
 )
 
 // Error statuses
@@ -34,12 +37,15 @@ var errorCode = map[string]int{
 	ErrSuccess.Error():                      200,
 	ErrNoContent.Error():                    201,
 	ErrBadRequest.Error():                   400,
+	ErrInvalidToken.Error():                 400,
 	ErrBindingClientToCard.Error():          400,
 	ErrWaitingApplicationFromBasket.Error(): 400,
 	ErrSmallLenName.Error():                 400,
 	ErrIncorrectName.Error():                400,
 	ErrIncorrectOTP.Error():                 400,
 	ErrPasswordLen.Error():                  400,
+	ErrWrongPassword.Error():                400,
+	ErrExpiredToken.Error():                 401,
 	ErrUnauthorized.Error():                 401,
 	ErrAccessDenied.Error():                 403,
 	ErrDataNotFound.Error():                 404,

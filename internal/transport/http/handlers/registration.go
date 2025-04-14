@@ -9,7 +9,7 @@ import (
 	"github.com/WayDBae/eWallet/pkg/bootstrap/http/misc/response"
 )
 
-// HLogin ...
+// HLogin - Вход
 func (h *Handler) HRegistration(rw http.ResponseWriter, r *http.Request) {
 	var resp response.Response
 	ctx := r.Context()
@@ -84,15 +84,7 @@ func (h *Handler) HRegistration(rw http.ResponseWriter, r *http.Request) {
 //       <ul>
 //         <li>Не верный OTP код</li>
 //         <li>Неправильный логин или пароль</li>
-//         <li>Одно или несколько полей пустые</li>
 //       </ul>
-//   429:
-//     description: |-
-//       ## Retry Limit Exceeded
-//       Количество попыток: <code>4</code>
-//       Сбросить лимит после <code>5 минуты</code>
-//     schema:
-//       $ref: "#/responses/retryLimitExceeded/schema"
 //   500:
 //     description: |-
 //       Internal Server Error or Something went wrong

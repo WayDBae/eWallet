@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -9,32 +10,22 @@ import (
 	"github.com/WayDBae/eWallet/pkg/bootstrap/http/misc/response"
 )
 
-// HOTPVerify ...
+// HOTPVerify - Подтверждение
 func (h *Handler) HOTPVerify(rw http.ResponseWriter, r *http.Request) {
-	var resp response.Response
-	ctx := r.Context()
+	var (
+		resp response.Response
+		ctx  context.Context = r.Context()
+		data entities.AuthOTPVerify
+	)
+
 	defer resp.WriterJSON(rw, ctx)
 
 	// Extracting data from a request
-	var data entities.AuthOTPVerify
-
 	decoder := json.NewDecoder(r.Body)
 	decoder.DisallowUnknownFields()
 
 	// Сheck the integrity of the received data
 	err := decoder.Decode(&data)
-	if err != nil {
-		resp.Message = response.ErrBadRequest.Error()
-		return
-	}
-
-	_, err = strconv.Atoi(data.PhoneNumber[len(data.PhoneNumber)-9:])
-	if err != nil {
-		resp.Message = response.ErrBadRequest.Error()
-		return
-	}
-
-	_, err = strconv.Atoi(data.PhoneNumber)
 	if err != nil {
 		resp.Message = response.ErrBadRequest.Error()
 		return
@@ -52,19 +43,18 @@ func (h *Handler) HOTPVerify(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	// Execution of business logic
-	token, err := h.auth.OTPVerify(data, ctx)
+	accessToken, refreshToken, err := h.auth.OTPVerify(data, ctx)
 	if err != nil {
 		resp.Message = err.Error()
 		return
 	}
 
-	var test map[string]any = map[string]any{
-		"access_token": token,
-	}
-	
 	// Sending a response
 	resp.Message = response.ErrSuccess.Error()
-	resp.Payload = test
+	resp.Payload = map[string]any{
+		"access_token":  accessToken,
+		"refresh_token": refreshToken,
+	}
 }
 
 // swagger:operation POST /auth/otp-verify Authorization authOTPVerify

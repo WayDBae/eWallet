@@ -25,9 +25,10 @@ type Logger struct {
 
 // Server configuration
 type Server struct {
-	Host      string `mapstructure:"host"`
-	Port      uint16 `mapstructure:"port"`
-	SecretKey string `mapstructure:"secretKey"`
+	Host             string `mapstructure:"host"`
+	Port             uint16 `mapstructure:"port"`
+	AccessSecretKey  string `mapstructure:"accessSecretKey"`
+	RefreshSecretKey string `mapstructure:"refreshSecretKey"`
 }
 
 // type Oracle struct {
