@@ -7,7 +7,7 @@ import (
 
 type Wallet struct {
 	BaseGorm
-	UserID     uuid.UUID       `json:"user_id"`
+	UserID     uuid.UUID       `json:"-"`
 	CurrencyID uuid.UUID       `json:"currency"`
 	Balance    decimal.Decimal `json:"balance" gorm:"type:numeric(20,6)"`
 }
