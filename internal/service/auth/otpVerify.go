@@ -8,6 +8,7 @@ import (
 
 	"github.com/WayDBae/eWallet/internal/entities"
 	"github.com/WayDBae/eWallet/pkg/bootstrap/http/misc/response"
+	"github.com/google/uuid"
 )
 
 func (p *provider) OTPVerify(data entities.AuthOTPVerify, ctx context.Context) (accessToken, refreshToken string, err error) {
@@ -84,6 +85,9 @@ func (p *provider) OTPVerify(data entities.AuthOTPVerify, ctx context.Context) (
 
 	for _, currency := range currencies {
 		_, err = p.wallet.Create(entities.Wallet{
+			BaseGorm: entities.BaseGorm{
+				ID: uuid.New(),
+			},
 			UserID:     user.ID,
 			CurrencyID: currency.ID,
 		}, ctx)
