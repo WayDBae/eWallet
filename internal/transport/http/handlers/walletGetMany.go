@@ -37,6 +37,9 @@ func (h *Handler) HWalletGetMany(rw http.ResponseWriter, r *http.Request) {
 //
 // ---
 //
+// security:
+//   - BearerAuth: []
+//
 // responses:
 //   200:
 //     description: |-

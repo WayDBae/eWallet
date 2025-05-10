@@ -44,6 +44,5 @@ type swaggerAuthOTPVerify struct {
 
 // swagger:parameters walletGetMany
 type swaggerWalletGetMany struct {
-	//in:body
-	Body struct{}
+	//in:query
 }

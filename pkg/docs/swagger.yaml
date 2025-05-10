@@ -260,11 +260,6 @@ paths:
         get:
             description: '## Роут предназначен для получения всех кошельков пользователя'
             operationId: walletGetMany
-            parameters:
-                - in: body
-                  name: Body
-                  schema:
-                    type: object
             responses:
                 "200":
                     description: '## Успешно'
@@ -286,6 +281,8 @@ paths:
                     description: Internal Server Error or Something went wrong
                     schema:
                         $ref: '#/responses/internalServer/schema'
+            security:
+                - BearerAuth: []
             summary: Кошельки пользователя
             tags:
                 - Wallet
