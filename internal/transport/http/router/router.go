@@ -27,7 +27,7 @@ func NewRouter(h *handlers.Handler, mw middlewares.Middleware) (router *transpor
 	router.POST("/auth/login", h.HLogin, mw.CORS)
 	router.POST("/auth/refresh", h.HRefreshToken, mw.CORS)
 	
-	router.GET("/wallet/get", h.HWalletGet, mw.JWT, mw.CORS)
+	router.GET("/wallet/getMany", h.HWalletGetMany, mw.JWT, mw.CORS)
 	// router.GET("/metrics", AdaptHandler(promhttp.Handler()), mw.CORS)
 	return
 }

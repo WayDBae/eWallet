@@ -256,6 +256,39 @@ paths:
             summary: Ping Pong!
             tags:
                 - Ping
+    /wallet/getMany:
+        get:
+            description: '## Роут предназначен для получения всех кошельков пользователя'
+            operationId: walletGetMany
+            parameters:
+                - in: body
+                  name: Body
+                  schema:
+                    type: object
+            responses:
+                "200":
+                    description: '## Успешно'
+                    schema:
+                        $ref: '#/responses/success/schema'
+                "400":
+                    description: |-
+                        ## Неверный запрос
+                        Возможно, вам стоит перепроверить введенные данные
+
+                        Все возможные сообщения об ошибках в полезной нагрузке (payload):
+                        <ul>
+                          <li>Неправильный логин или пароль</li>
+                          <li>Одно или несколько полей пустые</li>
+                        </ul>
+                    schema:
+                        $ref: '#/responses/badRequest/schema'
+                "500":
+                    description: Internal Server Error or Something went wrong
+                    schema:
+                        $ref: '#/responses/internalServer/schema'
+            summary: Кошельки пользователя
+            tags:
+                - Wallet
 produces:
     - application/json
 responses:
