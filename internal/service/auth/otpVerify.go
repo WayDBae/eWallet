@@ -80,5 +80,18 @@ func (p *provider) OTPVerify(data entities.AuthOTPVerify, ctx context.Context) (
 		return
 	}
 
+	currencies, err := p.currency.GetMany(entities.Currency{}, ctx)
+
+	for _, currency := range currencies {
+		_, err = p.wallet.Create(entities.Wallet{
+			UserID:     user.ID,
+			CurrencyID: currency.ID,
+		}, ctx)
+
+		if err != nil {
+			return
+		}
+	}
+
 	return
 }

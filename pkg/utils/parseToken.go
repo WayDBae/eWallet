@@ -1,4 +1,4 @@
-package jwt
+package utils
 
 import (
 	"context"
@@ -9,9 +9,9 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func (p *provider) ParseToken(tokenStr string, ctx context.Context) (claims *entities.CustomClaims, err error) {
+func ParseToken(tokenStr string, refreshSecretKey string, ctx context.Context) (claims *entities.CustomClaims, err error) {
 	token, err := jwt.ParseWithClaims(tokenStr, &entities.CustomClaims{}, func(token *jwt.Token) (any, error) {
-		return []byte(p.config.Server.RefreshSecretKey), nil
+		return []byte(refreshSecretKey), nil
 	})
 	if err != nil {
 		err = response.ErrInvalidToken

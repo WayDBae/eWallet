@@ -22,6 +22,7 @@ var (
 	ErrWaitingApplicationFromBasket = errors.New("В ожидании получения новой заявки")
 
 	ErrBadRequest    = errors.New("Неверный запрос")
+	ErrEmptyToken    = errors.New("Пустой токен")
 	ErrInvalidToken  = errors.New("Неверный токен")
 	ErrExpiredToken  = errors.New("Токен просрочен")
 	ErrSmallLenName  = errors.New("Ваше имя слишком короткое")
@@ -37,6 +38,7 @@ var errorCode = map[string]int{
 	ErrSuccess.Error():                      200,
 	ErrNoContent.Error():                    201,
 	ErrBadRequest.Error():                   400,
+	ErrEmptyToken.Error():                   400,
 	ErrInvalidToken.Error():                 400,
 	ErrBindingClientToCard.Error():          400,
 	ErrWaitingApplicationFromBasket.Error(): 400,

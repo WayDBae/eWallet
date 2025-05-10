@@ -5,11 +5,12 @@ import (
 	"time"
 
 	"github.com/WayDBae/eWallet/internal/entities"
+	"github.com/WayDBae/eWallet/pkg/utils"
 	"github.com/google/uuid"
 )
 
 func (p *provider) Refresh(token string, ctx context.Context) (accessToken, refreshToken string, err error) {
-	claims, err := p.jwt.ParseToken(token, ctx)
+	claims, err := utils.ParseToken(token, p.config.Server.RefreshSecretKey, ctx)
 	if err != nil {
 		return
 	}

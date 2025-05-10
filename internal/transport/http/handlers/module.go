@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/WayDBae/eWallet/internal/service/auth"
+	"github.com/WayDBae/eWallet/internal/service/wallet"
 	"github.com/rs/zerolog"
 	"go.uber.org/fx"
 )
@@ -15,7 +16,8 @@ type HandlerDependencies struct {
 	Logger zerolog.Logger
 
 	// Services
-	Auth auth.BAuth
+	Auth   auth.BAuth
+	Wallet wallet.BWallet
 }
 
 // Handler ...
@@ -23,7 +25,8 @@ type Handler struct {
 	logger zerolog.Logger
 
 	// Services
-	auth auth.BAuth
+	auth   auth.BAuth
+	wallet wallet.BWallet
 }
 
 // NewHandlerProvider ...
@@ -32,6 +35,7 @@ func NewHandlerProvider(params HandlerDependencies) *Handler {
 		logger: params.Logger,
 
 		// Services
-		auth: params.Auth,
+		auth:   params.Auth,
+		wallet: params.Wallet,
 	}
 }

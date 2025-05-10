@@ -15,7 +15,6 @@ var Module = fx.Provide(NewHJWT)
 type HJWT interface {
 	GenerateAccessToken(user entities.User, t time.Duration, ctx context.Context) (accessToken string, err error)
 	GenerateRefreshToken(user entities.User, t time.Duration, ctx context.Context) (accessToken string, err error)
-	ParseToken(tokenStr string, ctx context.Context) (claims *entities.CustomClaims, err error)
 }
 
 type provider struct {

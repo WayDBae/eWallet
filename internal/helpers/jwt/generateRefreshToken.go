@@ -15,6 +15,7 @@ func (p *provider) GenerateRefreshToken(user entities.User, t time.Duration, ctx
 
 	// Генерируем полезные данные, которые будут храниться в токене
 	claims := entities.CustomClaims{
+		Name: user.Name,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Subject:   user.ID.String(),
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(t)),

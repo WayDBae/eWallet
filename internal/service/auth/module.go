@@ -5,8 +5,10 @@ import (
 
 	"github.com/WayDBae/eWallet/internal/entities"
 	"github.com/WayDBae/eWallet/internal/helpers/jwt"
+	"github.com/WayDBae/eWallet/internal/storage/currency"
 	"github.com/WayDBae/eWallet/internal/storage/rdb"
 	"github.com/WayDBae/eWallet/internal/storage/user"
+	"github.com/WayDBae/eWallet/internal/storage/wallet"
 	"github.com/WayDBae/eWallet/pkg/config"
 	"github.com/rs/zerolog"
 	"go.uber.org/fx"
@@ -35,9 +37,11 @@ type provider struct {
 
 	// Storages
 
-	user user.SUser
-	rdb  rdb.SRedis
-	jwt  jwt.HJWT
+	user     user.SUser
+	rdb      rdb.SRedis
+	jwt      jwt.HJWT
+	wallet   wallet.SWallet
+	currency currency.SCurrency
 }
 
 type Params struct {
@@ -50,9 +54,11 @@ type Params struct {
 	Config *config.Config
 
 	// Storages
-	User user.SUser
-	Rdb  rdb.SRedis
-	JWT  jwt.HJWT
+	User     user.SUser
+	Rdb      rdb.SRedis
+	JWT      jwt.HJWT
+	Wallet   wallet.SWallet
+	Currency currency.SCurrency
 }
 
 // NewBAuth ...
@@ -65,8 +71,10 @@ func NewBAuth(params Params) BAuth {
 		config: params.Config,
 
 		// Storages
-		user: params.User,
-		rdb:  params.Rdb,
-		jwt:  params.JWT,
+		user:     params.User,
+		rdb:      params.Rdb,
+		jwt:      params.JWT,
+		wallet:   params.Wallet,
+		currency: params.Currency,
 	}
 }

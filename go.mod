@@ -15,6 +15,7 @@ require (
 	github.com/jasonlvhit/gocron v0.0.1
 	github.com/joho/godotenv v1.3.0
 	github.com/rs/zerolog v1.33.0
+	github.com/shopspring/decimal v1.4.0
 	github.com/spf13/viper v1.15.0
 	go.uber.org/fx v1.19.3
 	gorm.io/driver/postgres v1.5.11
