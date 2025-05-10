@@ -3,6 +3,7 @@ package auth
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"log"
 	"regexp"
 	"unicode/utf8"
@@ -21,7 +22,13 @@ func (p *provider) Registration(data entities.AuthRegistration, ctx context.Cont
 	}
 
 	_, err = p.user.GetByPhone(data.PhoneNumber, ctx)
-	if err != nil && err != response.ErrDataNotFound {
+	switch {
+	case err == nil:
+		err = response.ErrPhoneNumberExists
+		return
+	case errors.Is(err, response.ErrDataNotFound):
+		err = nil
+	default:
 		return
 	}
 

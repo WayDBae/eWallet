@@ -2,7 +2,6 @@ package databases
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/WayDBae/eWallet/internal/entities"
 	"gorm.io/driver/postgres"
@@ -11,7 +10,7 @@ import (
 )
 
 // Postgres ...
-func Postgres(params Dependencies) (con *gorm.DB) {
+func Postgres(params Dependencies) *gorm.DB {
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=Asia/Dushanbe",
 
@@ -23,16 +22,21 @@ func Postgres(params Dependencies) (con *gorm.DB) {
 		params.Config.Postgres.SSLMode,
 	)
 
-	con, err := gorm.Open(postgres.Open(dsn), &gorm.Config{Logger: logger.Default})
-	if err != nil {
-		log.Println(err)
-		// Надо?
-		return
-	}
-
-	err = con.AutoMigrate(&entities.User{})
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info), // можно выбрать Silent, Error, Warn, Info
+	})
 	if err != nil {
 		panic(err)
 	}
-	return
+
+	// Автоматическая миграция моделей
+	if err := db.AutoMigrate(
+		&entities.User{},
+		&entities.Wallet{},
+		&entities.Currency{},
+	); err != nil {
+		panic(err)
+	}
+
+	return db
 }
