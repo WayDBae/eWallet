@@ -4,15 +4,13 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/WayDBae/eWallet/internal/entities"
 	"github.com/WayDBae/eWallet/pkg/bootstrap/http/misc/response"
 )
 
 func (h *Handler) HWalletGetMany(rw http.ResponseWriter, r *http.Request) {
 	var (
-		resp    response.Response
-		ctx     context.Context = r.Context()
-		wallets []entities.Wallet
+		resp response.Response
+		ctx  context.Context = r.Context()
 	)
 
 	defer resp.WriterJSON(rw, ctx)
@@ -38,7 +36,7 @@ func (h *Handler) HWalletGetMany(rw http.ResponseWriter, r *http.Request) {
 // ---
 //
 // security:
-//   - BearerAuth: []
+//   - Bearer: []
 //
 // responses:
 //   200:

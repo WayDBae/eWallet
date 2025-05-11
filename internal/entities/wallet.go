@@ -8,6 +8,6 @@ import (
 type Wallet struct {
 	BaseGorm
 	UserID     uuid.UUID       `json:"-"`
-	CurrencyID uuid.UUID       `json:"currency"`
+	CurrencyID uuid.UUID       `json:"currency_id"`
 	Balance    decimal.Decimal `json:"balance" gorm:"type:numeric(20,6)"`
 }

@@ -26,7 +26,7 @@ func Postgres(params Dependencies) *gorm.DB {
 		Logger: logger.Default.LogMode(logger.Info), // можно выбрать Silent, Error, Warn, Info
 	})
 	if err != nil {
-		panic(err)
+		// panic(err)
 	}
 
 	// Автоматическая миграция моделей
@@ -35,7 +35,7 @@ func Postgres(params Dependencies) *gorm.DB {
 		&entities.Wallet{},
 		&entities.Currency{},
 	); err != nil {
-		panic(err)
+		// panic(err)
 	}
 
 	return db

@@ -282,7 +282,7 @@ paths:
                     schema:
                         $ref: '#/responses/internalServer/schema'
             security:
-                - BearerAuth: []
+                - Bearer: []
             summary: Кошельки пользователя
             tags:
                 - Wallet

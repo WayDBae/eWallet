@@ -13,6 +13,7 @@ var Module = fx.Provide(NewSCurrency)
 
 type SCurrency interface {
 	GetMany(filter entities.Currency, ctx context.Context) (currencies []entities.Currency, err error)
+	Get(data entities.Currency, ctx context.Context) (currency entities.Currency, err error)
 }
 
 type provider struct {
